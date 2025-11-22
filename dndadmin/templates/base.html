@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'characterapp/css/style.css' %}">
+</head>
+<body>
+<header>
+    <h1 class="header_h">DND Master</h1>
+    <div class="header_links">
+        <a href="{% url 'game:game-list' %}">Игры</a>
+        <a href="{% url 'characters:character-list' %}">Персонажи</a>
+    </div>
+</header>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+</body>
+</html>

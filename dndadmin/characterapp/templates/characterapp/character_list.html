@@ -1,0 +1,25 @@
+{% extends 'characterapp/base.html' %}
+{% block maincontent %}
+<h1>Персонажи</h1>
+<div class="add_button_div">
+    <a href="{% url 'characters:character-add' %} ">Добавить</a>
+</div>
+<div class="character_card_list">
+    {% for character in characters %}
+    <a href="#">
+    <div class="character_card">
+        {% if character.image %}
+        <img src="{{ character.image.url }}">
+        {% else %}
+        <img src="/media/staticmedia/image-placeholder-vertical.jpg">
+        {% endif %}
+        <div class="character_card_info">
+            <h3>{{character.name}}</h3>
+            <p>{{character.dnd_class}} {{character.level}} ур.</p>
+            <p>{{character.hp}}/{{character.max_hp}}</p>
+        </div>
+    </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
