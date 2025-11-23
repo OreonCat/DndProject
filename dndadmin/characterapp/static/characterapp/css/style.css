@@ -69,6 +69,7 @@ header{
 .side_bar{
 	flex-grow: 1;
 	background: var(--link_secondary);
+	min-width: 10rem;
 }
 
 .side_bar a{
@@ -137,6 +138,42 @@ header{
 	padding: 0.5rem;
 }
 
+.search_form{
+	display: flex;
+	margin-top: 1rem;
+	border-style: solid;
+	width: fit-content;
+	border-color: var(--primary_background);
+}
+
+.search_form p{
+	padding: 0.5rem;
+}
+
+.search_form input, .search_form select{
+	padding: 0.5rem;
+}
+
+.search_form_label{
+	margin-right: 0.5rem;
+}
+
+.search_form_button, .search_form_clear_button{
+	display: inline-block;
+	text-decoration: none;
+	height: 100%;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	color: white;
+	background: var(--primary_background);
+	border-style: none;
+	align-content: center;
+}
+
+.search_form_button:hover, .search_form_clear_button:hover{
+	background: var(--link_active);
+}
+
 /* ADD CHARACTER */
 
 .form_page_div{
@@ -180,4 +217,65 @@ header{
 	background: var(--primary_background);
 	color: white;
 	border-style: none;
+}
+
+
+/* CHARACTER DETAIL */
+
+.detail_page_div{
+	background: var(--main_background);
+	min-height: calc(100vh - 6.3rem);
+	padding: 1rem;
+}
+
+.character_detail_base{
+	display: flex;
+}
+
+.character_detail_base img{
+	width: 20rem;
+	height: 30rem;
+	object-fit: contain;
+	background:  var(--simple_background);
+}
+
+.character_detail_info{
+	padding-left: 1rem;
+}
+
+.character_detail_info a{
+	text-decoration: none;
+	color: black;
+}
+
+.character_detail_info a:hover{
+	color: var(--primary_background);
+}
+
+.character_detail_info p{
+	margin-top: 0.5rem;
+	font-size: 1.3rem;
+}
+
+.character_ability_collection{
+	margin-top: 2rem;
+	display: flex;
+	justify-content: space-around;
+}
+
+.ability_div a{
+	text-decoration: none;
+	color: black;
+}
+
+.skill_div p{
+	font-size: 1.1rem;
+	margin-top: 0.5rem;
+}
+
+.npc_sign{
+	display: inline-block;
+	background: var(--primary_background);
+	color: white;
+	padding: 0.2rem;
 }

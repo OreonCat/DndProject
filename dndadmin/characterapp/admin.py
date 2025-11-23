@@ -10,10 +10,10 @@ class CharacterAdmin(admin.ModelAdmin):
 
 @admin.register(Ability)
 class AbilityAdmin(admin.ModelAdmin):
-    list_display = ('ability', 'character')
+    list_display = ('ability', 'character', 'value')
     search_fields = ('ability',)
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ('skill', 'ability')
+    list_display = ('skill', 'ability', 'value')
     search_fields = ('skill',)

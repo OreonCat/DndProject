@@ -4,8 +4,8 @@
 <div class="main_with_side_bar_div">
     <div class="side_bar">
         <a href="{% url 'characters:character-list' %}">Все</a>
-        <a href="#">Игровые</a>
-        <a href="#">NPC</a>
+        <a href="{% url 'characters:playable-character-list' %}">Игровые</a>
+        <a href="{% url 'characters:npc-list' %}">NPC</a>
     </div>
     <div class="main_content">
     {% block maincontent %}

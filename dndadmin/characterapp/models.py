@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user, get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.urls import reverse
 
 from bookdata.models import DndClass, Race, Background
 
@@ -7,20 +9,23 @@ from bookdata.models import DndClass, Race, Background
 class Character(models.Model):
     name = models.CharField(max_length=100, verbose_name="Имя")
     dnd_class = models.ForeignKey(DndClass, on_delete=models.PROTECT, null=True, verbose_name="Класс")
+    dnd_subclass = models.CharField(max_length=100, verbose_name="Подкласс", null=True, blank=True)
     race = models.ForeignKey(Race, on_delete=models.PROTECT, null=True, verbose_name="Раса")
     background = models.ForeignKey(Background, on_delete=models.PROTECT, null=True, verbose_name="Предыстория")
-    max_hp = models.IntegerField(default=0, verbose_name="Max hp")
-    hp = models.IntegerField(default=0, verbose_name="HP")
-    armor_class = models.IntegerField(default=0, verbose_name="КД")
+    max_hp = models.IntegerField(default=0, verbose_name="Max hp", validators=[MinValueValidator(0)])
+    hp = models.IntegerField(default=0, verbose_name="HP", validators=[MinValueValidator(0)])
+    armor_class = models.IntegerField(default=0, verbose_name="КД", validators=[MinValueValidator(0)])
     initiative = models.IntegerField(null=True, verbose_name="Инициатива")
-    cooper_coins = models.IntegerField(default=0, verbose_name="ММ")
-    silver_coins = models.IntegerField(default=0, verbose_name="СМ")
-    gold_coins = models.IntegerField(default=0, verbose_name="ЗМ")
+    cooper_coins = models.IntegerField(default=0, verbose_name="ММ", validators=[MinValueValidator(0)])
+    silver_coins = models.IntegerField(default=0, verbose_name="СМ", validators=[MinValueValidator(0)])
+    gold_coins = models.IntegerField(default=0, verbose_name="ЗМ", validators=[MinValueValidator(0)])
     is_player = models.BooleanField(verbose_name="Игрок")
-    player_name = models.CharField(max_length=100, null=True, verbose_name="Имя игрока")
+    player_name = models.CharField(max_length=100, null=True, verbose_name="Имя игрока", blank=True)
     image = models.ImageField(upload_to="characters/", null=True, blank=True, verbose_name="Изображение")
     user = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.PROTECT)
-    level = models.IntegerField(default=1, verbose_name="Уровень")
+    level = models.IntegerField(default=1, verbose_name="Уровень", validators=[MinValueValidator(1)])
+    speed = models.IntegerField(default=0, verbose_name="Скорость", validators=[MinValueValidator(0)])
+    proficient_bonus = models.IntegerField(default=2, verbose_name="Бонус мастерства")
 
     class Meta:
         verbose_name = "Персонаж"
@@ -28,6 +33,26 @@ class Character(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('characters:character-detail', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('characters:character-update', kwargs={'pk': self.pk})
+
+    def get_coin_update_url(self):
+        return reverse('characters:coin-update', kwargs={'pk': self.pk})
+
+    def get_go_to_gold_url(self):
+        return reverse('characters:go-to-gold', kwargs={'pk': self.pk})
+
+    def go_to_gold(self):
+        temp = self.cooper_coins // 10
+        self.cooper_coins = self.cooper_coins % 10
+        self.silver_coins = self.silver_coins + temp
+        temp = self.silver_coins // 10
+        self.silver_coins = self.silver_coins % 10
+        self.gold_coins = self.gold_coins + temp
 
 
 
@@ -37,7 +62,7 @@ class Ability(models.Model):
         STR = 'STR', 'Сила'
         DEX = 'DEX', 'Ловкость'
         CON = 'CON', 'Телосложение'
-        INT = 'INT', 'Интелект'
+        INT = 'INT', 'Интеллект'
         WIS = 'WIS', 'Мудрость'
         CHR = 'CHR', 'Харизма'
 
