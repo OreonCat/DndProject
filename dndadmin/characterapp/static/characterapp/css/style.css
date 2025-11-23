@@ -279,3 +279,18 @@ header{
 	color: white;
 	padding: 0.2rem;
 }
+
+
+.change_pass_form_div{
+	align-content: center;
+	text-align: center;
+}
+
+.change_pass_form_div a{
+	display: inline-block;
+	text-decoration: none;
+	width: 100%;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	color: white;
+}

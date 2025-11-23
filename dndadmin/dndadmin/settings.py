@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bookdata.apps.BookdataConfig',
     'characterapp.apps.CharacterappConfig',
     'game.apps.GameConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = 'game:game-list'
+LOGOUT_REDIRECT_URL = 'game:game-list'
+LOGIN_URL = 'users:login'
+LOGOUT_URL = 'users:logout'
+

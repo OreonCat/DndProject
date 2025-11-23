@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, RedirectView, UpdateView
 
@@ -7,14 +8,14 @@ from characterapp.utils import BaseMixin, CharacterListMixin
 
 
 # Create your views here.
-class CharacterListView(CharacterListMixin, ListView):
+class CharacterListView(LoginRequiredMixin, CharacterListMixin, ListView):
     model = Character
     context_object_name = 'characters'
     paginate_by = 10
     template_name = 'characterapp/character_list.html'
     title_page = "Все персонажи"
 
-class PlayableCharacterListView(CharacterListMixin, ListView):
+class PlayableCharacterListView(LoginRequiredMixin, CharacterListMixin, ListView):
     model = Character
     context_object_name = 'characters'
     paginate_by = 10
@@ -25,7 +26,7 @@ class PlayableCharacterListView(CharacterListMixin, ListView):
         queryset = super().get_queryset()
         return queryset.filter(is_player=True)
 
-class NPCListView(CharacterListMixin, ListView):
+class NPCListView(LoginRequiredMixin, CharacterListMixin, ListView):
     model = Character
     context_object_name = 'characters'
     paginate_by = 10
@@ -37,7 +38,7 @@ class NPCListView(CharacterListMixin, ListView):
         return queryset.filter(is_player=False)
 
 
-class CharacterCreateView(BaseMixin, CreateView):
+class CharacterCreateView(LoginRequiredMixin, BaseMixin, CreateView):
     model = Character
     form_class = CharacterCreateForm
     template_name = 'characterapp/character_form.html'
@@ -55,7 +56,7 @@ class CharacterCreateView(BaseMixin, CreateView):
 
         return super().form_valid(form)
 
-class CharacterDetailView(DetailView):
+class CharacterDetailView(LoginRequiredMixin, DetailView):
     model = Character
     context_object_name = 'character'
     template_name = 'characterapp/character_detail.html'
@@ -122,7 +123,7 @@ class MakeProficientSkill(RedirectView):
             skill.save()
         return character.get_absolute_url()
 
-class CharacterUpdateView(BaseMixin, UpdateView):
+class CharacterUpdateView(LoginRequiredMixin, BaseMixin, UpdateView):
     model = Character
     form_class = CharacterCreateForm
     template_name = 'characterapp/character_form.html'
@@ -132,7 +133,7 @@ class CharacterUpdateView(BaseMixin, UpdateView):
         character = Character.objects.get(pk=self.kwargs['pk'])
         return character.get_absolute_url()
 
-class CoinsUpdateView(BaseMixin, UpdateView):
+class CoinsUpdateView(LoginRequiredMixin, BaseMixin, UpdateView):
     model = Character
     form_class = CoinForm
     template_name = 'characterapp/character_form.html'
