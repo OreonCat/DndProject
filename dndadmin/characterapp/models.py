@@ -2,6 +2,8 @@ from django.contrib.auth import get_user, get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
+from django_extensions.db.fields import slugify
+from transliterate import translit
 
 from bookdata.models import DndClass, Race, Background
 
@@ -26,8 +28,10 @@ class Character(models.Model):
     level = models.IntegerField(default=1, verbose_name="Уровень", validators=[MinValueValidator(1)])
     speed = models.IntegerField(default=0, verbose_name="Скорость", validators=[MinValueValidator(0)])
     proficient_bonus = models.IntegerField(default=2, verbose_name="Бонус мастерства")
+    slug = models.SlugField(null=True, blank=True)
 
     class Meta:
+        unique_together = ('name', 'race', 'user')
         verbose_name = "Персонаж"
         verbose_name_plural = "Персонажи"
 
@@ -35,7 +39,7 @@ class Character(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('characters:character-detail', kwargs={'pk': self.pk})
+        return reverse('characters:character-detail', kwargs={'slug': self.slug})
 
     def get_update_url(self):
         return reverse('characters:character-update', kwargs={'pk': self.pk})
@@ -53,6 +57,13 @@ class Character(models.Model):
         temp = self.silver_coins // 10
         self.silver_coins = self.silver_coins % 10
         self.gold_coins = self.gold_coins + temp
+
+    def save(self, *args, **kwargs):
+
+        future_slug_raw = self.name + "_" + self.race.name + "_" + self.user.username
+        future_slug = translit(future_slug_raw, 'ru', reversed=True)
+        self.slug = slugify(future_slug)
+        super().save(*args, **kwargs)
 
 
 

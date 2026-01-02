@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="main_without_side_bar_div">
+        <div class="game_info list_element">
+            <img src="{{game.image.url}}">
+            <div class="game_info_info">
+                <h1>{{game.name}}</h1>
+                <p>Дата начала - {{game.time_start}}</p>
+                {% if game.time_end %}
+                <p>Дата окончания - {{game.time_end}}</p>
+                {% endif %}
+                <p>Мастер - {{game.master}}</p>
+            </div>
+        </div>
+        <div class="character_list_div list_element">
+            <h1>Игроки</h1>
+            <div class="character_card_list">
+                {% for character in characters %}
+                <a href="{{ character.get_absolute_url }}">
+
+                <div class="character_card">
+                    {% if character.image %}
+                    <img src="{{ character.image.url }}">
+                    {% else %}
+                    <img src="/media/staticmedia/image-placeholder-vertical.jpg">
+                    {% endif %}
+                    <div class="character_card_info">
+                        <h3>{{character.name}}</h3>
+                        <p>{{character.dnd_class}} {{character.level}} ур.</p>
+                        <p>{{character.hp}}/{{character.max_hp}}</p>
+                    </div>
+                </div>
+                </a>
+                {% endfor %}
+                 <a href="{% url 'game:game-add-character' game.pk %}">
+                    <p class="flex_add_button">
+                        +
+                    </p>
+                </a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -109,14 +109,14 @@ header{
 
 .character_card_list{
 	display: flex;
-	margin-top: 1rem;
+	
 }
 
 .character_card_list a{
 	text-decoration: none;
 	color: black;
 	margin-right: 0.5rem;
-	margin-bottom: 0.5rem;
+	margin-top: 1rem;
 }
 
 .character_card{
@@ -136,6 +136,24 @@ header{
 .character_card_info{
 	align-content: center;
 	padding: 0.5rem;
+}
+
+.character_with_add_card{
+	margin-right: 1rem;
+	margin-top: 1rem;
+}
+
+.character_with_add_card a{
+	padding: 0;
+	margin:0;
+}
+
+.character_add_button{
+	background: var(--primary_background);
+	color: white;
+	padding: 0.2rem;
+	text-align: center;
+	font-size: 2rem;
 }
 
 .search_form{
@@ -263,9 +281,15 @@ header{
 	justify-content: space-around;
 }
 
+.ability_div{
+	padding: 2rem;
+	background: var(--primary_background);
+	color: white;
+}
+
 .ability_div a{
 	text-decoration: none;
-	color: black;
+	color: white;
 }
 
 .skill_div p{
@@ -294,3 +318,75 @@ header{
 	padding-bottom: 0.5rem;
 	color: white;
 }
+
+.main_without_side_bar_div{
+	padding: 1rem;
+	background: var(--main_background);
+	min-height: calc(100vh - 6.3rem);
+}
+
+.master_main_div h4{
+	margin-top: 0.5rem;
+}
+
+.list_element{
+	margin-bottom: 1rem;
+}
+
+.game_collection a{
+	color: black;
+	text-decoration: none;
+}
+
+.game_collection{
+	display: flex;
+	margin-top: 1rem;
+}
+
+.game{
+	background: white;
+	display: flex;
+	margin-right: 0.5rem;
+}
+
+.game img{
+	width: 10rem;
+	height: 5rem;
+	object-fit: contain;
+	background:  var(--simple_background);
+}
+
+.game_div_info{
+	padding: 1rem;
+}
+
+.flex_add_button{
+	background: var(--primary_background);
+	color: white;
+	height: 100%;
+	width: 5rem;
+	text-align: center;
+	align-content: center;
+	font-size: 2rem;
+}
+
+.game_info{
+	display: flex;
+}
+
+.game_info img{
+	width: 25rem;
+	height: 20rem;
+	object-fit: contain;
+	background:  var(--simple_background);
+}
+
+.game_info_info{
+	padding: 1rem;
+	align-content: center;
+}
+
+.game_info_info p{
+	margin-top: 0.5rem;
+}
+

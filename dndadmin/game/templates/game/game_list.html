@@ -1,4 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Placeholder</h1>
+    <div class="main_without_side_bar_div">
+        <div class="master_main_div list_element">
+            <h1>Мастер - {{master_username}}</h1>
+            <h4>Имя: {{master_realname}}</h4>
+        </div>
+        <div class="game_main_div list_element">
+            <h1>Игры</h1>
+            <form method="get" class="search_form">
+                {% for f in form %}
+                <p><label for="{{f.id_for_label}}" class="search_form_label">{{f.label}}</label>{{f}}</p>
+                <div>{{f.errors}}</div>
+                {% endfor %}
+                <p><button type="submit" class="search_form_button">Поиск</button></p>
+                <p><a href="{{url_clean}}" class="search_form_clear_button">Очистить</a> </p>
+            </form>
+            <div class="game_collection">
+                {% for game in games %}
+                <a href="{{game.get_absolute_url}}">
+                <div class="game">
+                    <img src="{{game.image.url}}">
+                    <div class="game_div_info">
+                        <h2>{{game.name}}</h2>
+                        <p>{{game.time_start}}</p>
+                    </div>
+                </div>
+                </a>
+                {% endfor %}
+                <a href="{% url 'game:game-create' %}">
+                    <p class="flex_add_button">
+                        +
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

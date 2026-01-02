@@ -11,6 +11,12 @@ class BaseMixin:
             context['title'] = self.title_page
         return context
 
+class SearchMixin(BaseMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['url_clean'] = f"{self.request.scheme}://{self.request.get_host()}{self.request.path}"
+        return context
+
 
 class CharacterListMixin(BaseMixin):
 

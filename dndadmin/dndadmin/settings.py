@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'characterapp.apps.CharacterappConfig',
     'game.apps.GameConfig',
     'users.apps.UsersConfig',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

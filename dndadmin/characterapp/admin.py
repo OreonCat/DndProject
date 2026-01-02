@@ -5,7 +5,7 @@ from characterapp.models import Character, Ability, Skill
 
 @admin.register(Character)
 class CharacterAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'image', 'user')
+    list_display = ('id', 'name', 'image', 'user', 'slug')
     search_fields = ('name',)
 
 @admin.register(Ability)

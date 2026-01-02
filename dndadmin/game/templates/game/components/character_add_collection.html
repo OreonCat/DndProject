@@ -1,0 +1,20 @@
+<form method="get" class="search_form">
+    {% for f in form %}
+    <p><label for="{{f.id_for_label}}" class="search_form_label">{{f.label}}</label>{{f}}</p>
+    <div>{{f.errors}}</div>
+    {% endfor %}
+    <p><button type="submit" class="search_form_button">Поиск</button></p>
+    <p><a href="{{url_clean}}" class="search_form_clear_button">Очистить</a> </p>
+</form>
+<div class="character_card_list">
+    {% for character in characters %}
+    <div class="character_with_add_card">
+        <a href="{{ character.get_absolute_url }}">
+        {% include 'characterapp/components/character_card.html' %}
+        </a>
+        <a href="{% url 'game:game-add-character-redirects' game_pk character.pk %}">
+            <p class="character_add_button">+</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
