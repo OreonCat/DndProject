@@ -12,7 +12,7 @@
         <a href="{{ character.get_absolute_url }}">
         {% include 'characterapp/components/character_card.html' %}
         </a>
-        <a href="{% url 'game:game-add-character-redirects' game_pk character.pk %}">
+        <a href="{% url add_url game_pk character.pk %}">
             <p class="character_add_button">+</p>
         </a>
     </div>

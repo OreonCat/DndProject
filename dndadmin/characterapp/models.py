@@ -66,6 +66,21 @@ class Character(models.Model):
         super().save(*args, **kwargs)
 
 
+    def get_damage(self, damage):
+        if self.hp - damage >= 0:
+            self.hp -= damage
+        else:
+            self.hp = 0
+        self.save()
+
+    def get_health(self, health):
+        if self.hp + health <= self.max_hp:
+            self.hp += health
+        else:
+            self.hp = self.max_hp
+        self.save()
+
+
 
 class Ability(models.Model):
 

@@ -23,9 +23,8 @@ class Game(models.Model):
 
 
 class Encounter(models.Model):
-    characters = models.ManyToManyField(Character, blank=True, related_name='encounters', verbose_name="Персонажи")
     stage = models.IntegerField(validators=[MinValueValidator(0)], default=0, verbose_name="Ход")
-    enemies = models.ManyToManyField(Character, blank=True, related_name='encounters_enemy', verbose_name="Враги")
+    is_start = models.BooleanField(default=False, verbose_name="Начат")
     is_complete = models.BooleanField(default=False, verbose_name="Завершен")
     game = models.ForeignKey(Game, related_name='encounters', on_delete=models.CASCADE, verbose_name="Игра")
     time_start = models.DateTimeField(auto_now_add=True, verbose_name="Время начала")
@@ -37,3 +36,69 @@ class Encounter(models.Model):
 
     def get_absolute_url(self):
         return reverse('game:encounter-detail', kwargs={'pk': self.pk})
+
+    def get_start_url(self):
+        return reverse('game:encounter-start', kwargs={'pk': self.pk})
+
+    def get_next_url(self):
+        return reverse('game:encounter-next-step', kwargs={'pk': self.pk})
+
+    def start(self):
+        self.stage = 1
+        self.is_start = True
+        self.save()
+
+        characters = self.encounter_characters.all().order_by('-initiative')
+        character = characters[0]
+        character.make_step()
+
+    def next_step(self):
+        characters = self.encounter_characters.all().order_by('-initiative')
+        for i in range(0, len(characters)):
+            next_step = i+1
+            if characters[i].is_my_step and next_step < len(characters):
+                characters[i].end_step()
+                characters[i+1].make_step()
+                break
+            elif characters[i].is_my_step:
+                characters[i].end_step()
+                characters[0].make_step()
+                self.stage += 1
+                self.save()
+                break
+
+
+class EncounterCharacter(models.Model):
+    character = models.ForeignKey(Character, verbose_name="Персонаж", on_delete=models.PROTECT, related_name="encounters")
+    encounter = models.ForeignKey(Encounter, on_delete=models.CASCADE, verbose_name="Бой", related_name="encounter_characters")
+    is_enemy = models.BooleanField(default=False, verbose_name="Противник")
+    initiative = models.IntegerField(default=0)
+    is_my_step = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Участник битвы"
+        verbose_name_plural = "Участники битвы"
+
+    def delete_from_encounter(self):
+        return reverse('game:encounter-delete-character', kwargs={'encounter_id': self.encounter.pk, 'pk': self.pk})
+
+    def get_damage_url(self):
+        return reverse('game:encounter-character-get-damage', kwargs={'pk': self.pk})
+
+    def get_health_url(self):
+        return reverse('game:encounter-character-get-health', kwargs={'pk': self.pk})
+
+    def set_initiative(self, initiative):
+        self.initiative = initiative + self.character.initiative
+        self.save()
+
+    def get_initiative_url(self):
+        return reverse('game:encounter-character-get-initiative', kwargs={'pk': self.pk})
+
+    def make_step(self):
+        self.is_my_step = True
+        self.save()
+
+    def end_step(self):
+        self.is_my_step = False
+        self.save()

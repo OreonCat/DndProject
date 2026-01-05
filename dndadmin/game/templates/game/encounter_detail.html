@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="encounter_main">
+    <div class="initiative_position_block">
+        <h1 class="initiative_sign_h1">Инициатива</h1>
+        <div class="initiative_card_collection">
+            {% if characters %}
+            {% for character in characters %}
+            <div class="initiative_card">
+                <img src="{{character.character.image.url}}">
+                <p class="{% if character.is_enemy %} enemy_name {% endif %}"> {% if character.is_my_step %} &#10060; {%endif%}{{character.character.name}}</p>
+            </div>
+            {% endfor %}
+            {%else %}
+            <h1>[Не добавлены персонажи]</h1>
+            {% endif %}
+        </div>
+    </div>
+    <div class="character_all_block">
+        <div class="character_block">
+            <h1>Персонажи</h1>
+            <div class="character_list_collection">
+                {% for character in characters %}
+                {% if character.is_enemy == False %}
+                {% include 'game/components/encounter_character_card.html' %}
+                {% endif %}
+                {% endfor %}
+                <a href="{% url 'game:encounter-add-hero' encounter.id %}" class="encounter_add_character_button"><p>+</p></a>
+            </div>
+        </div>
+        <div class="character_block">
+            <h1>Противники</h1>
+            <div class="character_list_collection">
+                {% for character in characters %}
+                {% if character.is_enemy%}
+                {% include 'game/components/encounter_character_card.html' %}
+                {% endif %}
+                {% endfor %}
+                <a href="{% url 'game:encounter-add-enemy' encounter.id %}" class="encounter_add_character_button"><p>+</p></a>
+            </div>
+        </div>
+    </div>
+    <div class="encounter_button_div">
+        <p>Ход: {{encounter.stage}}</p>
+        {% if encounter.is_start %}
+        <a href="{{encounter.get_next_url}}"><p>ШАГ</p></a>
+        {% else %}
+        <a href="{{encounter.get_start_url}}"><p>СТАРТ</p></a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+<div class="encounter_character_card">
+    <img src="{{character.character.image.url}}">
+    <div class="encounter_character_card_info">
+        <h3>{{character.character.name}}</h3>
+        <p>{{character.character.dnd_class}}</p>
+        <p>Инициатива: {{character.initiative}}</p>
+        <p>❤️ {{character.character.hp}}/{{character.character.max_hp}}</p>
+        <div class="encounter_character_card_buttons">
+            <a href="{{character.get_initiative_url}}"><p>&#9998;</p></a>
+            <a href="{{character.get_health_url}}"><p>&#10084;</p></a>
+            <a href="{{character.get_damage_url}}"><p>&#10033;</p></a>
+            <a href="{{character.character.get_absolute_url}}"><p>Ⓘ</p></a>
+            <a href="{{character.delete_from_encounter}}"><p>&#10006;</p></a>
+        </div>
+    </div>
+</div>

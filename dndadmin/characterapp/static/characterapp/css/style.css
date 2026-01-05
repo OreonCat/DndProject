@@ -390,3 +390,101 @@ header{
 	margin-top: 0.5rem;
 }
 
+.encounter_card{
+	padding: 1rem;
+	align-content: center;
+	align-items: center;
+}
+
+.not_completed_encounter_card{
+	background: white;
+}
+
+.encounter_main{
+	padding: 1rem;
+	background: var(--main_background);
+	min-height: calc(100vh - 6.3rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+
+.initiative_sign_h1{
+	text-align: center;
+}
+
+.character_all_block{
+	display: flex;
+}
+
+.character_block{
+	padding: 1rem;
+	background: white;
+	margin: 1rem;
+	min-width: 30rem;
+}
+
+.encounter_add_character_button{
+	text-decoration: none;
+	color: white;
+	display: inline-block;
+	width: 100%;
+	margin-top: 1rem;
+}
+
+.encounter_add_character_button p{
+	background: var(--primary_background);
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+.encounter_character_card{
+	display: flex;
+	margin-top: 1rem;
+}
+
+.encounter_character_card img{
+	width: 5rem;
+}
+
+.encounter_character_card_info{
+	padding: 0.5rem;
+}
+
+.encounter_character_card_buttons{
+	display: flex;
+	font-size: 1.5rem;
+}
+
+.encounter_character_card_buttons a{
+	color: black;
+	text-decoration: none;
+}
+
+.encounter_character_card_buttons a:hover{
+	color: var(--primary_background);
+}
+
+.initiative_card_collection{
+	display: flex;
+}
+
+.initiative_card{
+	margin: 0.5rem;
+	background: white;
+	width: 4rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.initiative_card img{
+	width: 4rem;
+	height: 4rem;
+}
+
+.enemy_name{
+	color: white;
+	background: red;
+}
