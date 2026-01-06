@@ -109,14 +109,15 @@ header{
 
 .character_card_list{
 	display: flex;
-	
+	margin-top: 1rem;
+	flex-wrap: wrap;
 }
 
 .character_card_list a{
 	text-decoration: none;
 	color: black;
 	margin-right: 0.5rem;
-	margin-top: 1rem;
+	margin-bottom: 0.5rem;
 }
 
 .character_card{
@@ -154,6 +155,8 @@ header{
 	padding: 0.2rem;
 	text-align: center;
 	font-size: 2rem;
+	border-style: none;
+	width: 100%;
 }
 
 .search_form{
@@ -275,6 +278,23 @@ header{
 	font-size: 1.3rem;
 }
 
+.go_to_gold_form{
+	margin-top: 0.5rem;
+}
+
+.go_to_gold_form button{
+	padding: 0.5rem;
+	background: var(--primary_background);
+	color: white;
+	border-style: none;
+	cursor: pointer;
+	transition: background 30ms ease-in-out;
+}
+
+.go_to_gold_form button:hover{
+	background: var(--link_secondary);
+}
+
 .character_ability_collection{
 	margin-top: 2rem;
 	display: flex;
@@ -286,6 +306,36 @@ header{
 	background: var(--primary_background);
 	color: white;
 }
+
+.ability_element, .skill_element{
+	display: flex;
+}
+
+.ability_element h2, .skill_element p{
+	margin-right: 0.2rem;
+}
+
+.ability_element button{
+	margin-right: 0.2rem;
+	cursor: pointer;
+	background: none;
+	font-weight: bold;
+	border-style: none;
+	color: white;
+	font-size: 1.4rem;
+}
+
+.skill_element button{
+	margin-right: 0.2rem;
+	cursor: pointer;
+	background: none;
+	font-weight: bold;
+	border-style: none;
+	color: white;
+	margin-top: 0.25rem;
+	font-size: 1.4rem;
+}
+
 
 .ability_div a{
 	text-decoration: none;
@@ -368,6 +418,7 @@ header{
 	text-align: center;
 	align-content: center;
 	font-size: 2rem;
+	border-style: none;
 }
 
 .game_info{
@@ -398,6 +449,15 @@ header{
 
 .not_completed_encounter_card{
 	background: white;
+}
+
+.completed_encounter_card{
+	background: lightgray;
+}
+
+.character_card_list_element{
+	margin-bottom: 0.5rem;
+
 }
 
 .encounter_main{
@@ -462,8 +522,15 @@ header{
 	text-decoration: none;
 }
 
-.encounter_character_card_buttons a:hover{
+.encounter_character_card_buttons button{
+	border-style: none;
+	font-size: 1.5rem;
+}
+
+.encounter_character_card_buttons a:hover, .encounter_character_card_buttons button:hover{
 	color: var(--primary_background);
+	cursor: pointer;
+
 }
 
 .initiative_card_collection{
@@ -487,4 +554,25 @@ header{
 .enemy_name{
 	color: white;
 	background: red;
+}
+
+.encounter_button_div{
+	display: flex;
+}
+
+.encounter_button_div a{
+	text-decoration: none;
+}
+
+.encounter_button_div button:hover{
+	background: var(--link_secondary);
+}
+
+.encounter_button_div p, .encounter_button_div button{
+	padding: 1rem;
+	background: var(--primary_background);
+	color: white;
+	border-style: none;
+	font-size: 1rem;
+
 }

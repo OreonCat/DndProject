@@ -23,21 +23,43 @@
             <p><b>Инициатива: </b>{{character.initiative}}</p>
             <p><b>КД: </b>{{character.armor_class}}</p>
             <p><b>ММ: </b>{{character.cooper_coins}} <b>СМ: </b>{{character.silver_coins}} <b>ЗМ: </b>{{ character.gold_coins }} <a href="{{character.get_coin_update_url}}">⛭</a></p>
-            <p><a href="{{character.get_go_to_gold_url}}">[Вывести в золото]</a></p>
+            <form method="post" action="{{character.get_go_to_gold_url}}" class="go_to_gold_form">
+                {% csrf_token %}
+                <button>Вывести в золото</button>
+            </form>
         </div>
     </div>
     <div class="character_ability_collection">
         {% for ability in character.abilities.all %}
         <div class="ability_div">
-            <h2>{{ability.get_ability_display}} <a href="{% url 'characters:character-decrease-ability' ability.id %}">-</a> {{ability.value}} <a href="{% url 'characters:character-increase-ability' ability.id %}">+</a> </h2>
+            <div class="ability_element">
+                <h2>{{ability.get_ability_display}}</h2>
+                <form method="post" action="{% url 'characters:character-decrease-ability' ability.id %}">
+                    {% csrf_token %}
+                    <button>-</button>
+                </form>
+                <h2>{{ability.value}}</h2>
+                <form method="post" action="{% url 'characters:character-increase-ability' ability.id %}">
+                    {% csrf_token %}
+                    <button>+</button>
+                </form>
+            </div>
             <div class="skill_div">
-                <p>
-                    Спасбросок {{ability.saving_throw}}<a href="{% url 'characters:make-proficient-ability' ability.id %}">{% if ability.is_proficient %} ● {% else %} ○ {% endif %}</a>
-                </p>
+                <div class="skill_element">
+                    <p>Спасбросок {{ability.saving_throw}}</p>
+                    <form method="post" action="{% url 'characters:make-proficient-ability' ability.id %}">
+                        {% csrf_token %}
+                        <button>{% if ability.is_proficient %} ● {% else %} ○ {% endif %}</button>
+                    </form>
+                </div>
                 {% for skill in ability.skills.all %}
-                <p>
-                    {{ skill.get_skill_display }}  {{ skill.value }}<a href="{% url 'characters:make-proficient-skill' skill.id %}">{% if skill.is_proficient %} ● {% else %} ○ {% endif %}</a>
-                </p>
+                <div class="skill_element">
+                    <p>{{ skill.get_skill_display }}  {{ skill.value }}</p>
+                    <form method="post" action="{% url 'characters:make-proficient-skill' skill.id %}">
+                        {% csrf_token %}
+                        <button>{% if skill.is_proficient %} ● {% else %} ○ {% endif %}</button>
+                    </form>
+                </div>
                 {% endfor %}
             </div>
         </div>

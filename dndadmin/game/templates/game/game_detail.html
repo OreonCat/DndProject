@@ -43,18 +43,17 @@
             <h1>Бои</h1>
             <div class="character_card_list">
                 {% for encounter in encounters %}
-                <a href="{{ encounter.get_absolute_url }}">
+                <a href="{{ encounter.get_absolute_url }}" class="character_card_list_element">
                     <div class="encounter_card {% if encounter.is_complete %}completed_encounter_card{% else %}not_completed_encounter_card{% endif %}">
                         <h3>{{encounter.time_start}}</h3>
                         <p>Ход: {{encounter.stage}}</p>
                     </div>
                 </a>
                 {% endfor %}
-                <a href="{% url 'game:encounter-redirect' game.pk %}">
-                    <p class="flex_add_button">
-                        +
-                    </p>
-                </a>
+                <form method="post" action="{% url 'game:encounter-redirect' game.pk %}" class="character_card_list_element">
+                    {% csrf_token %}
+                    <button class="flex_add_button">+</button>
+                </form>
             </div>
         </div>
 

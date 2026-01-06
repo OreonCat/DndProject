@@ -1,3 +1,5 @@
+from datetime import timezone, datetime
+
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -21,6 +23,9 @@ class Game(models.Model):
     def get_absolute_url(self):
         return reverse('game:game-detail', kwargs={'pk': self.pk})
 
+    def check_master(self, user):
+        return self.master == user
+
 
 class Encounter(models.Model):
     stage = models.IntegerField(validators=[MinValueValidator(0)], default=0, verbose_name="Ход")
@@ -42,6 +47,9 @@ class Encounter(models.Model):
 
     def get_next_url(self):
         return reverse('game:encounter-next-step', kwargs={'pk': self.pk})
+
+    def get_close_url(self):
+        return reverse('game:encounter-close', kwargs={'pk': self.pk})
 
     def start(self):
         self.stage = 1
@@ -67,6 +75,18 @@ class Encounter(models.Model):
                 self.save()
                 break
 
+    def close_encounter(self):
+        self.is_complete = True
+        self.time_end = datetime.now()
+        characters = self.encounter_characters.all().order_by('-initiative')
+        for character in characters:
+            if character.is_my_step:
+                character.end_step()
+            if character.character.is_player:
+                character.character.hp = character.hp
+                character.character.save()
+        self.save()
+
 
 class EncounterCharacter(models.Model):
     character = models.ForeignKey(Character, verbose_name="Персонаж", on_delete=models.PROTECT, related_name="encounters")
@@ -74,6 +94,8 @@ class EncounterCharacter(models.Model):
     is_enemy = models.BooleanField(default=False, verbose_name="Противник")
     initiative = models.IntegerField(default=0)
     is_my_step = models.BooleanField(default=False)
+    hp = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    max_hp = models.IntegerField(default=0, validators=[MinValueValidator(0)])
 
     class Meta:
         verbose_name = "Участник битвы"
@@ -101,4 +123,18 @@ class EncounterCharacter(models.Model):
 
     def end_step(self):
         self.is_my_step = False
+        self.save()
+
+    def make_damage(self, damage):
+        if self.hp - damage >= 0:
+            self.hp -= damage
+        else:
+            self.hp = 0
+        self.save()
+
+    def make_health(self, health):
+        if self.hp + health <= self.max_hp:
+            self.hp += health
+        else:
+            self.hp = self.max_hp
         self.save()

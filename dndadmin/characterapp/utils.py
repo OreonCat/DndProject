@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from characterapp.forms import SearchForm
 from characterapp.models import Character
 
@@ -27,7 +29,7 @@ class CharacterListMixin(BaseMixin):
         return context
 
     def get_queryset(self):
-        character_objects = Character.objects.all()
+        character_objects = Character.objects.filter(Q(user=self.request.user) | Q(is_player=False))
         if self.request.GET.get('name'):
             character_objects = character_objects.filter(name__icontains=self.request.GET.get('name'))
         if self.request.GET.get('dnd_class'):
@@ -37,3 +39,5 @@ class CharacterListMixin(BaseMixin):
         if self.request.GET.get('level'):
             character_objects = character_objects.filter(level=self.request.GET.get('level'))
         return character_objects
+
+

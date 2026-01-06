@@ -1,5 +1,10 @@
+from django.contrib.auth.views import redirect_to_login
+from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.urls import reverse
+
 from characterapp.models import Character
 from characterapp.utils import BaseMixin, SearchMixin, CharacterListMixin
+from game.models import Encounter
 
 
 class MasterInfoMixin(SearchMixin):
@@ -23,3 +28,5 @@ class AddCharacterMixin(CharacterListMixin):
         if self.add_url:
             context['add_url'] = self.add_url
         return context
+
+

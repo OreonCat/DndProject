@@ -59,26 +59,13 @@ class Character(models.Model):
         self.gold_coins = self.gold_coins + temp
 
     def save(self, *args, **kwargs):
-
         future_slug_raw = self.name + "_" + self.race.name + "_" + self.user.username
         future_slug = translit(future_slug_raw, 'ru', reversed=True)
         self.slug = slugify(future_slug)
         super().save(*args, **kwargs)
 
 
-    def get_damage(self, damage):
-        if self.hp - damage >= 0:
-            self.hp -= damage
-        else:
-            self.hp = 0
-        self.save()
 
-    def get_health(self, health):
-        if self.hp + health <= self.max_hp:
-            self.hp += health
-        else:
-            self.hp = self.max_hp
-        self.save()
 
 
 
@@ -106,6 +93,35 @@ class Ability(models.Model):
 
     def __str__(self):
         return f"{self.character.name} {self.get_ability_display()}"
+
+    def increase(self):
+        self.value += 1
+        self.saving_throw += 1
+        self.save()
+        for skill in self.skills.all():
+            skill.value += 1
+            skill.save()
+
+    def decrease(self):
+        self.value -= 1
+        self.saving_throw -= 1
+        self.save()
+        for skill in self.skills.all():
+            skill.value -= 1
+            skill.save()
+
+    def make_proficient(self):
+        if self.is_proficient:
+            self.is_proficient = False
+            self.saving_throw -= self.character.proficient_bonus
+            self.save()
+        else:
+            self.is_proficient = True
+            self.saving_throw += self.character.proficient_bonus
+            self.save()
+
+    def check_master(self, user):
+        return self.character.user == user or (not self.character.is_player)
 
 class Skill(models.Model):
     class SkillType(models.TextChoices):
@@ -164,4 +180,13 @@ class Skill(models.Model):
             Skill.objects.create(ability=ability, skill=Skill.SkillType.PRF).save()
             Skill.objects.create(ability=ability, skill=Skill.SkillType.PRS).save()
 
+    def make_proficient(self):
+        if self.is_proficient:
+            self.is_proficient = False
+            self.value -= self.ability.character.proficient_bonus
+            self.save()
+        else:
+            self.is_proficient = True
+            self.value += self.ability.character.proficient_bonus
+            self.save()
 

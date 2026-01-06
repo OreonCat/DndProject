@@ -25,7 +25,9 @@
                 {% include 'game/components/encounter_character_card.html' %}
                 {% endif %}
                 {% endfor %}
+                {% if encounter.is_complete == False %}
                 <a href="{% url 'game:encounter-add-hero' encounter.id %}" class="encounter_add_character_button"><p>+</p></a>
+                {% endif %}
             </div>
         </div>
         <div class="character_block">
@@ -36,17 +38,31 @@
                 {% include 'game/components/encounter_character_card.html' %}
                 {% endif %}
                 {% endfor %}
+                {% if encounter.is_complete == False %}
                 <a href="{% url 'game:encounter-add-enemy' encounter.id %}" class="encounter_add_character_button"><p>+</p></a>
+                {% endif %}
             </div>
         </div>
     </div>
+    {% if encounter.is_complete == False %}
     <div class="encounter_button_div">
         <p>Ход: {{encounter.stage}}</p>
         {% if encounter.is_start %}
-        <a href="{{encounter.get_next_url}}"><p>ШАГ</p></a>
+        <form method="post" action="{{encounter.get_next_url}}">
+            {% csrf_token %}
+            <button>ШАГ</button>
+        </form>
+        <form method="post" action="{{encounter.get_close_url}}">
+            {% csrf_token %}
+            <button>ЗАВЕРШИТЬ</button>
+        </form>
         {% else %}
-        <a href="{{encounter.get_start_url}}"><p>СТАРТ</p></a>
+        <form method="post" action="{{encounter.get_start_url}}">
+            {% csrf_token %}
+            <button>СТАРТ</button>
+        </form>
         {% endif %}
     </div>
+    {% endif %}
 </div>
 {% endblock %}
