@@ -25,6 +25,7 @@ urlpatterns = [
     path('characters/', include('characterapp.urls', namespace='characters')),
     path('', include('game.urls', namespace='game')),
     path('users/', include('users.urls', namespace='users')),
+    path('api/', include('api.urls', namespace='api')),
 ]
 
 if settings.DEBUG:

@@ -34,6 +34,7 @@ header{
 	justify-content: space-between;
 }
 
+
 .header_h{
 	color: white;
 	padding: 1rem;
@@ -58,6 +59,9 @@ header{
 .header_links a:hover{
 	background: var(--link_active);
 }
+
+
+
 
 /* CHARACTERS */
 
@@ -162,6 +166,7 @@ header{
 .search_form{
 	display: flex;
 	margin-top: 1rem;
+	flex-wrap: wrap;
 	border-style: solid;
 	width: fit-content;
 	border-color: var(--primary_background);
@@ -386,17 +391,22 @@ header{
 .game_collection a{
 	color: black;
 	text-decoration: none;
+	display: block;
+	margin-bottom: 0.5rem;
 }
 
 .game_collection{
 	display: flex;
+	flex-wrap: wrap;
 	margin-top: 1rem;
+	margin-bottom: 0.5rem;
 }
 
 .game{
 	background: white;
 	display: flex;
 	margin-right: 0.5rem;
+
 }
 
 .game img{
@@ -476,6 +486,7 @@ header{
 
 .character_all_block{
 	display: flex;
+	flex-wrap: wrap;
 }
 
 .character_block{
@@ -575,4 +586,11 @@ header{
 	border-style: none;
 	font-size: 1rem;
 
+}
+
+@media (max-width: 576px) {
+
+	body header .header_h{
+		color: black;
+	}
 }
