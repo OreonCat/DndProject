@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from bookdata.models import DndClass
+from bookdata.models import DndClass, Race
 
 
 class DndClassSerializer(serializers.ModelSerializer):
@@ -8,6 +8,10 @@ class DndClassSerializer(serializers.ModelSerializer):
         model = DndClass
         fields = '__all__'
 
+class DndRaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Race
+        fields = '__all__'
 
 class AltDndClassSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
