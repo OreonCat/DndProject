@@ -64,6 +64,6 @@ class UpdateCharacterSerializer(serializers.ModelSerializer):
         model = Character
         fields = ('id', 'name', 'dnd_subclass', 'max_hp', 'hp', 'armor_class', 'initiative', 'cooper_coins',
                   'silver_coins', 'gold_coins', 'level', 'speed', 'proficient_bonus', 'dnd_class', 'race',
-                  'background', 'image')
+                  'background', 'image', 'user', 'is_player')
 
 

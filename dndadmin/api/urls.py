@@ -11,6 +11,7 @@ urlpatterns = [
     path('my_username', views.GetUsernameApiView.as_view(), name='username'),
     path('characters', views.CharacterApiView.as_view(), name='characters'),
     path('characters/update/<int:pk>', views.CharacterInsertApiView.as_view(), name='characterupdate'),
+    path('characters/create', views.CharacterCreateApiView.as_view(), name='charactercreate'),
     path('abilities/update/<int:pk>', views.AbilityUpdateApiView.as_view(), name='abilityupdate'),
     path('skills/update/<int:pk>', views.SkillUpdateApiView.as_view(), name='skillupdate'),
     path('auth/', include('djoser.urls')),

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.forms import model_to_dict
 from rest_framework import generics, permissions, status, parsers
-from rest_framework.generics import ListAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -45,9 +45,28 @@ class CharacterInsertApiView(UpdateAPIView):
     serializer_class = UpdateCharacterSerializer
     permission_classes = (permissions.IsAuthenticated,)
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, )
+    http_method_names = ['patch']
 
     def get_queryset(self):
         return Character.objects.filter(user=self.request.user)
+
+class CharacterCreateApiView(CreateAPIView):
+    queryset = Character.objects.all()
+    serializer_class = UpdateCharacterSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def post(self, request, *args, **kwargs):
+        data = request.data.copy()
+        data['user'] = self.request.user.pk
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        new_character_id = serializer.data['id']
+        for ability_choice in Ability.AbilityType.choices:
+            ability = Ability.objects.create(character_id=new_character_id, ability=ability_choice[0])
+            ability.save()
+            Skill.create_skills(ability)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class AbilityUpdateApiView(UpdateAPIView):
     queryset = Ability.objects.all()

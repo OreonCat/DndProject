@@ -17,7 +17,7 @@ class Character(models.Model):
     max_hp = models.IntegerField(default=0, verbose_name="Max hp", validators=[MinValueValidator(0)])
     hp = models.IntegerField(default=0, verbose_name="HP", validators=[MinValueValidator(0)])
     armor_class = models.IntegerField(default=0, verbose_name="КД", validators=[MinValueValidator(0)])
-    initiative = models.IntegerField(null=True, verbose_name="Инициатива")
+    initiative = models.IntegerField(null=True, verbose_name="Инициатива", default=0)
     cooper_coins = models.IntegerField(default=0, verbose_name="ММ", validators=[MinValueValidator(0)])
     silver_coins = models.IntegerField(default=0, verbose_name="СМ", validators=[MinValueValidator(0)])
     gold_coins = models.IntegerField(default=0, verbose_name="ЗМ", validators=[MinValueValidator(0)])
@@ -82,7 +82,7 @@ class Ability(models.Model):
     ability = models.CharField(max_length=3, choices=AbilityType.choices, verbose_name="Навык")
     value = models.IntegerField(default=0, verbose_name="Характеристика")
     is_proficient = models.BooleanField(verbose_name="Профильное", default=False)
-    character = models.ForeignKey(Character, on_delete=models.PROTECT, verbose_name="Персонаж", related_name="abilities")
+    character = models.ForeignKey(Character, on_delete=models.CASCADE, verbose_name="Персонаж", related_name="abilities")
     saving_throw = models.IntegerField(default=0, verbose_name="Спас бросок")
 
 
@@ -147,7 +147,7 @@ class Skill(models.Model):
     skill = models.CharField(max_length=3, choices=SkillType.choices, verbose_name="Скилл")
     value = models.IntegerField(default=0, verbose_name="Характеристика")
     is_proficient = models.BooleanField(verbose_name="Профильное", default=False)
-    ability = models.ForeignKey(Ability, on_delete=models.PROTECT, verbose_name="Навык", related_name="skills")
+    ability = models.ForeignKey(Ability, on_delete=models.CASCADE, verbose_name="Навык", related_name="skills")
 
     class Meta:
         unique_together = ('ability', 'skill')
