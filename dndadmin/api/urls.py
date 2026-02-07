@@ -14,6 +14,7 @@ urlpatterns = [
     path('characters/create', views.CharacterCreateApiView.as_view(), name='charactercreate'),
     path('abilities/update/<int:pk>', views.AbilityUpdateApiView.as_view(), name='abilityupdate'),
     path('skills/update/<int:pk>', views.SkillUpdateApiView.as_view(), name='skillupdate'),
+    path('games', views.GameListApiView.as_view(), name='games'),
     path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
 ]

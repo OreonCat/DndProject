@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from bookdata.models import DndClass, Race, Background
 from characterapp.models import Character, Skill, Ability
+from game.models import Game, Encounter, EncounterCharacter
 
 
 class DndClassSerializer(serializers.ModelSerializer):
@@ -65,5 +66,28 @@ class UpdateCharacterSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'dnd_subclass', 'max_hp', 'hp', 'armor_class', 'initiative', 'cooper_coins',
                   'silver_coins', 'gold_coins', 'level', 'speed', 'proficient_bonus', 'dnd_class', 'race',
                   'background', 'image', 'user', 'is_player')
+
+class EncounterCharacterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EncounterCharacter
+        fields = ('id', 'character', 'is_enemy', 'initiative', 'is_my_step', 'hp', 'max_hp')
+
+class EncounterSerializer(serializers.ModelSerializer):
+    encounter_characters = EncounterCharacterSerializer(many=True, read_only=True)
+    class Meta:
+        model = Encounter
+        fields = ('id', 'stage', 'is_start', 'is_complete', 'time_start', 'time_end', 'encounter_characters')
+
+class CharacterPkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Character
+        fields = ('id',)
+
+class GameSerializer(serializers.ModelSerializer):
+    characters = CharacterPkSerializer(read_only=True, many=True)
+    encounters = EncounterSerializer(read_only=True, many=True)
+    class Meta:
+        model = Game
+        fields = "__all__"
 
 
