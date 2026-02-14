@@ -76,7 +76,7 @@ class EncounterSerializer(serializers.ModelSerializer):
     encounter_characters = EncounterCharacterSerializer(many=True, read_only=True)
     class Meta:
         model = Encounter
-        fields = ('id', 'stage', 'is_start', 'is_complete', 'time_start', 'time_end', 'encounter_characters')
+        fields = ('id', 'stage', 'is_start', 'is_complete', 'time_start', 'time_end', 'encounter_characters', 'game')
 
 class CharacterPkSerializer(serializers.ModelSerializer):
     class Meta:

@@ -38,6 +38,7 @@ class Encounter(models.Model):
     class Meta:
         verbose_name = "Битва"
         verbose_name_plural = "Битвы"
+        ordering = ['is_complete', '-time_start']
 
     def get_absolute_url(self):
         return reverse('game:encounter-detail', kwargs={'pk': self.pk})
@@ -100,6 +101,7 @@ class EncounterCharacter(models.Model):
     class Meta:
         verbose_name = "Участник битвы"
         verbose_name_plural = "Участники битвы"
+
 
     def delete_from_encounter(self):
         return reverse('game:encounter-delete-character', kwargs={'encounter_id': self.encounter.pk, 'pk': self.pk})

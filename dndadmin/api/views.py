@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.forms import model_to_dict
 from rest_framework import generics, permissions, status, parsers
 from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView
@@ -39,7 +40,7 @@ class CharacterApiView(ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        return Character.objects.filter(user=self.request.user).prefetch_related('abilities', 'abilities__skills')
+        return Character.objects.filter(Q(user=self.request.user) | Q(is_player=False)).prefetch_related('abilities', 'abilities__skills')
 
 class CharacterInsertApiView(UpdateAPIView):
     queryset = Character.objects.all()
