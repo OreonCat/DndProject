@@ -10,7 +10,7 @@ from characterapp.models import Character
 class Game(models.Model):
     name = models.CharField(max_length=100, unique=True, db_index=True, verbose_name="Название")
     image = models.ImageField(upload_to='games/', null=True, blank=True, verbose_name="Изображение")
-    characters = models.ManyToManyField(Character, verbose_name="Игроки", related_name="games")
+    characters = models.ManyToManyField(Character, verbose_name="Игроки", related_name="games", blank=True)
     is_complete = models.BooleanField(default=False, verbose_name="Завершена")
     time_start = models.DateTimeField(auto_now_add=True, verbose_name="Время начала")
     time_end = models.DateTimeField(null=True, blank=True, verbose_name="Время окончания")

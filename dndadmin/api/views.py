@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.serializers import DndClassSerializer, DndRaceSerializer, UsernameSerializer, CharacterSerializer, \
-    BackgroundSerializer, UpdateCharacterSerializer, AbilitySerializer, SkillSerializer, GameSerializer
+    BackgroundSerializer, UpdateCharacterSerializer, AbilitySerializer, SkillSerializer, GameSerializer, \
+    GameUpdateSerializer
 from bookdata.models import DndClass, Race, Background
 from characterapp.models import Character, Ability, Skill
 from game.models import Game
@@ -93,3 +94,16 @@ class GameListApiView(ListAPIView):
 
     def get_queryset(self):
         return Game.objects.filter(master=self.request.user).prefetch_related('characters', 'encounters', 'encounters__encounter_characters')
+
+class GameCreateApiView(CreateAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+class GameUpdateApiView(UpdateAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameUpdateSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get_queryset(self):
+        return Game.objects.filter(master=self.request.user)

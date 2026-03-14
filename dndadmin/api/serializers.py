@@ -20,7 +20,7 @@ class DndRaceSerializer(serializers.ModelSerializer):
 class UsernameSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('username',)
+        fields = ('id', 'username',)
 
 class BackgroundSerializer(serializers.ModelSerializer):
     class Meta:
@@ -84,10 +84,16 @@ class CharacterPkSerializer(serializers.ModelSerializer):
         fields = ('id',)
 
 class GameSerializer(serializers.ModelSerializer):
-    characters = CharacterPkSerializer(read_only=True, many=True)
+    characters = CharacterPkSerializer(many=True, required=False)
     encounters = EncounterSerializer(read_only=True, many=True)
     class Meta:
         model = Game
         fields = "__all__"
+
+class GameUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ('id', 'characters')
+
 
 
