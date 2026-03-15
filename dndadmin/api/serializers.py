@@ -70,7 +70,7 @@ class UpdateCharacterSerializer(serializers.ModelSerializer):
 class EncounterCharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = EncounterCharacter
-        fields = ('id', 'character', 'is_enemy', 'initiative', 'is_my_step', 'hp', 'max_hp')
+        fields = ('id', 'character', 'encounter', 'is_enemy', 'initiative', 'is_my_step', 'hp', 'max_hp')
 
 class EncounterSerializer(serializers.ModelSerializer):
     encounter_characters = EncounterCharacterSerializer(many=True, read_only=True)

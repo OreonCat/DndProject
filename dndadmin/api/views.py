@@ -2,16 +2,16 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.forms import model_to_dict
 from rest_framework import generics, permissions, status, parsers
-from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView, DestroyAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.serializers import DndClassSerializer, DndRaceSerializer, UsernameSerializer, CharacterSerializer, \
     BackgroundSerializer, UpdateCharacterSerializer, AbilitySerializer, SkillSerializer, GameSerializer, \
-    GameUpdateSerializer
+    GameUpdateSerializer, EncounterSerializer, EncounterCharacterSerializer
 from bookdata.models import DndClass, Race, Background
 from characterapp.models import Character, Ability, Skill
-from game.models import Game
+from game.models import Game, Encounter, EncounterCharacter
 
 
 class DndClassApiView(generics.ListAPIView):
@@ -107,3 +107,28 @@ class GameUpdateApiView(UpdateAPIView):
 
     def get_queryset(self):
         return Game.objects.filter(master=self.request.user)
+
+class EncounterCreateApiView(CreateAPIView):
+    queryset = Encounter.objects.all()
+    serializer_class = EncounterSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+class EncounterUpdateApiView(UpdateAPIView):
+    queryset = Encounter.objects.all()
+    serializer_class = EncounterSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+class EncounterCharacterCreateApiView(CreateAPIView):
+    queryset = EncounterCharacter.objects.all()
+    serializer_class = EncounterCharacterSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+class EncounterCharacterUpdateApiView(UpdateAPIView):
+    queryset = EncounterCharacter.objects.all()
+    serializer_class = EncounterCharacterSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+class EncounterCharacterDeleteApiView(DestroyAPIView):
+    queryset = EncounterCharacter.objects.all()
+    serializer_class = EncounterCharacterSerializer
+    permission_classes = (permissions.IsAuthenticated, )

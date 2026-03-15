@@ -17,6 +17,11 @@ urlpatterns = [
     path('games', views.GameListApiView.as_view(), name='games'),
     path('games/create', views.GameCreateApiView.as_view(), name='gamecreate'),
     path('games/update/<int:pk>', views.GameUpdateApiView.as_view(), name='gameupdate'),
+    path('encounters/create', views.EncounterCreateApiView.as_view(), name='encountercreate'),
+    path('encounters/update/<int:pk>', views.EncounterUpdateApiView.as_view(), name='encounterupdate'),
+    path('encounter_characters/create', views.EncounterCharacterCreateApiView.as_view(), name='encountercharactercreate'),
+    path('encounter_characters/update/<int:pk>', views.EncounterCharacterUpdateApiView.as_view(), name='encountercharacterupdate'),
+    path('encounter_characters/delete/<int:pk>', views.EncounterCharacterDeleteApiView.as_view(), name='encountercharacterdelete'),
     path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
 ]
